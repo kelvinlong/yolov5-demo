@@ -13,13 +13,20 @@ class YoloModel:
         self.output_video_fps = 15
 
     def predict(self, img):
+        logging.info('~~~~~~~~~~~~~~~~~')
+
         try:
             with torch.no_grad():
                 result = self.model(img)
-            result.save('api/static/results/')
+
+            logging.info(type(result))            
+            logging.info(str(result))
+            result.save(True, 'api/static/results/', True)
             final_result = {}
             data = []
             file_name = f'static/{result.files[0]}'
+            logging.info(str(result.files))
+            logging.info(file_name)
 
             for i in range(len(result.xywhn[0])):
                 x, y, w, h, prob, cls = result.xywhn[0][i].numpy()
